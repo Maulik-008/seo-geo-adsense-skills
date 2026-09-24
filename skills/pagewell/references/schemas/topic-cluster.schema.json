@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://resciencelab.github.io/pagewell/schemas/topic-cluster.schema.json",
+  "title": "Pagewell Topic Cluster Plan",
+  "type": "object",
+  "required": ["topic", "pages", "internalLinkMap"],
+  "properties": {
+    "topic": { "type": "string" },
+    "product": { "type": "string" },
+    "icp": { "type": ["string", "array"], "items": { "type": "string" } },
+    "pages": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["priority", "pageType", "route", "intent", "generatorSkill"],
+        "properties": {
+          "priority": { "type": "integer", "minimum": 1 },
+          "pageType": { "type": "string" },
+          "route": { "type": "string", "pattern": "^/" },
+          "intent": { "type": "string" },
+          "primaryKeyword": { "type": "string" },
+          "generatorSkill": { "type": "string" },
+          "brief": { "type": "object", "additionalProperties": true }
+        },
+        "additionalProperties": true
+      }
+    },
+    "internalLinkMap": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["source", "target", "anchor"],
+        "properties": {
+          "source": { "type": "string" },
+          "target": { "type": "string" },
+          "anchor": { "type": "string" },
+          "reason": { "type": "string" }
+        },
+        "additionalProperties": true
+      }
+    },
+    "executionOrder": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  },
+  "additionalProperties": true
+}

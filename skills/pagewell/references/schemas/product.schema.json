@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://resciencelab.github.io/pagewell/schemas/product.schema.json",
+  "title": "Pagewell Product Facts",
+  "type": "object",
+  "additionalProperties": {
+    "type": "object",
+    "required": ["name", "url", "category", "description"],
+    "properties": {
+      "name": { "type": "string" },
+      "url": { "type": "string", "format": "uri" },
+      "category": { "type": "string" },
+      "description": { "type": "string" },
+      "audience": {
+        "type": "array",
+        "items": { "type": "string" }
+      },
+      "command": { "type": "string" },
+      "claims": {
+        "type": "array",
+        "items": { "type": "string" }
+      },
+      "unknownClaims": {
+        "type": "array",
+        "items": { "type": "string" }
+      },
+      "cta": {
+        "type": "object",
+        "properties": {
+          "label": { "type": "string" },
+          "href": { "type": "string" }
+        },
+        "additionalProperties": true
+      }
+    },
+    "additionalProperties": true
+  }
+}

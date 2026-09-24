@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://resciencelab.github.io/pagewell/schemas/site-profile.schema.json",
+  "title": "Pagewell Site Profile",
+  "type": "object",
+  "required": ["framework", "routing", "rendering"],
+  "properties": {
+    "framework": {
+      "type": "string",
+      "description": "Detected website framework or stack."
+    },
+    "rendering": {
+      "type": "string",
+      "description": "Static, SSR, edge worker, SPA, mixed, or unknown."
+    },
+    "routing": {
+      "type": "string"
+    },
+    "styling": {
+      "type": "string"
+    },
+    "components": {
+      "type": "string"
+    },
+    "layouts": {
+      "type": "string"
+    },
+    "content": {
+      "type": "string"
+    },
+    "metadata": {
+      "type": "string"
+    },
+    "discoveryFiles": {
+      "type": "string"
+    },
+    "deployment": {
+      "type": "string"
+    },
+    "recommendedAdapter": {
+      "type": "string"
+    },
+    "conventions": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "knownGaps": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  },
+  "additionalProperties": true
+}

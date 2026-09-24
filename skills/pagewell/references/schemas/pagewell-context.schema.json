@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://resciencelab.github.io/pagewell/schemas/pagewell-context.schema.json",
+  "title": "Pagewell Unified Context",
+  "type": "object",
+  "required": ["product", "site", "routes", "generationRules", "qaRules"],
+  "properties": {
+    "product": {
+      "type": "object",
+      "required": ["name", "description", "audience", "cta"],
+      "properties": {
+        "name": { "type": "string" },
+        "url": { "type": "string" },
+        "category": { "type": "string" },
+        "description": { "type": "string" },
+        "audience": { "type": "array", "items": { "type": "string" } },
+        "cta": { "type": "object" },
+        "capabilities": { "type": "array", "items": { "type": "string" } },
+        "nonGoals": { "type": "array", "items": { "type": "string" } }
+      },
+      "additionalProperties": true
+    },
+    "claims": {
+      "type": "object",
+      "properties": {
+        "supported": { "type": "array" },
+        "prohibitedOrUnknown": { "type": "array", "items": { "type": "string" } }
+      },
+      "additionalProperties": true
+    },
+    "site": {
+      "type": "object",
+      "properties": {
+        "framework": { "type": "string" },
+        "rendering": { "type": "string" },
+        "siteRoot": { "type": "string" },
+        "routes": { "type": "string" },
+        "styling": { "type": "string" },
+        "components": { "type": "string" },
+        "layouts": { "type": "string" },
+        "metadata": { "type": "string" },
+        "discoveryFiles": { "type": "string" },
+        "recommendedAdapter": { "type": "string" },
+        "commands": { "type": "object" }
+      },
+      "additionalProperties": true
+    },
+    "routes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "intent": { "type": "string" },
+          "pattern": { "type": "string" },
+          "notes": { "type": "string" }
+        },
+        "additionalProperties": true
+      }
+    },
+    "pagePatterns": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "description": { "type": "string" },
+          "components": { "type": "array", "items": { "type": "string" } },
+          "useWhen": { "type": "string" }
+        },
+        "additionalProperties": true
+      }
+    },
+    "generationRules": { "type": "array", "items": { "type": "string" } },
+    "antiGenericRules": { "type": "array", "items": { "type": "string" } },
+    "qaRules": { "type": "array", "items": { "type": "string" } }
+  },
+  "additionalProperties": true
+}
