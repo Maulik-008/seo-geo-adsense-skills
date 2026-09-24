@@ -1,0 +1,28 @@
+{
+  "$schema": "https://code.claude.com/schemas/marketplace.json",
+  "name": "seo-geo-adsense-skills",
+  "owner": {
+    "name": "Maulik Joshi",
+    "email": "maulik.joshi@zuru.com",
+    "url": "https://github.com/Maulik-008"
+  },
+  "description": "SEO/GEO/AdSense content skill set: research, human-sounding writing, CORE-EEAT quality scoring, AdSense policy audit, and SERP/AI-search markup.",
+  "version": "1.0.0",
+  "plugins": [
+    {
+      "name": "seo-geo-adsense-skills",
+      "displayName": "SEO · GEO · AdSense Content Skills",
+      "source": "./",
+      "description": "9 skills + 4 agents for writing quality content and getting a site AdSense-ready: seo-geo research, human-web-content/clarity writing, content-quality-auditor (CORE-EEAT), adsense-auditor (73-item policy audit), geo-content-optimizer, serp-markup-builder, pagewell, and the adsense-content-pipeline orchestrator.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Maulik Joshi",
+        "email": "maulik.joshi@zuru.com"
+      },
+      "homepage": "https://github.com/Maulik-008/seo-geo-adsense-skills",
+      "repository": "https://github.com/Maulik-008/seo-geo-adsense-skills",
+      "keywords": ["seo", "geo", "adsense", "content-quality", "eeat", "writing", "serp"],
+      "category": "content"
+    }
+  ]
+}

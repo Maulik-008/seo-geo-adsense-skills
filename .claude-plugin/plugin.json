@@ -1,0 +1,22 @@
+{
+  "name": "seo-geo-adsense-skills",
+  "description": "Write quality web content and get it AdSense-ready: SEO/GEO research, human-sounding writing, an 80-item CORE-EEAT quality audit, the full 73-item AdSense policy audit, and AI-search/SERP markup, orchestrated end to end by an adsense-content-pipeline skill and four agents.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Maulik Joshi",
+    "email": "maulik.joshi@zuru.com"
+  },
+  "homepage": "https://github.com/Maulik-008/seo-geo-adsense-skills",
+  "repository": "https://github.com/Maulik-008/seo-geo-adsense-skills",
+  "license": "SEE LICENSE IN LICENSE-NOTICES.md",
+  "keywords": [
+    "seo",
+    "geo",
+    "adsense",
+    "content-quality",
+    "eeat",
+    "core-eeat",
+    "writing",
+    "serp"
+  ]
+}
