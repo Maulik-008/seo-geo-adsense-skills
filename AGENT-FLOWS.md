@@ -8,9 +8,10 @@ How the four agents work, which skills each one uses, and how to run them. The d
 - [4. content-quality-rewriter](#4-content-quality-rewriter)
 - [5. serp-snippet-writer](#5-serp-snippet-writer)
 - [6. adsense-content-loop](#6-adsense-content-loop)
-- [7. Skills each agent uses](#7-skills-each-agent-uses)
-- [8. Rules every agent follows](#8-rules-every-agent-follows)
-- [9. Install and run](#9-install-and-run)
+- [7. seo-content-master](#7-seo-content-master)
+- [8. Skills each agent uses](#8-skills-each-agent-uses)
+- [9. Rules every agent follows](#9-rules-every-agent-follows)
+- [10. Install and run](#10-install-and-run)
 
 ---
 
@@ -53,6 +54,7 @@ flowchart TD
     Q -->|"I have written content;<br/>check it and fix it"| A2["content-quality-rewriter"]
     Q -->|"Better titles, descriptions,<br/>social tags, schema"| A3["serp-snippet-writer"]
     Q -->|"New articles from scratch,<br/>researched and checked"| A4["adsense-content-loop"]
+    Q -->|"I have a keyword / idea / intent,<br/>not a finished topic list"| A5["seo-content-master"]
 ```
 
 | Agent | Changes files? | Typical run |
@@ -61,6 +63,7 @@ flowchart TD
 | `content-quality-rewriter` | Writes `*.rewritten.md` next to the original; never overwrites | 1–5 pages |
 | `serp-snippet-writer` | Writes a snippets report; edits head tags only in `apply` mode | 1–50 pages |
 | `adsense-content-loop` | Writes a new folder per topic | 1–5 topics |
+| `seo-content-master` | Writes a new folder per keyword/idea | 1–5 seeds |
 
 ---
 
@@ -225,21 +228,69 @@ content/
 
 ---
 
-## 7. Skills each agent uses
+## 7. seo-content-master
+
+**Purpose:** the master entry point. Given a keyword, a rough idea, or a stated search intent (not a pre-named topic list), it resolves that seed into a real target keyword through its own research stage, then loops the page through the exact same write → quality-audit → AdSense-check → SERP/GEO-markup gate as `adsense-content-loop`, fixing and re-checking until it passes.
+
+```mermaid
+flowchart TD
+    IN["Input: keyword / idea / intent<br/>+ site/niche + audience<br/>optional: first-hand material, output folder"] --> INT{"All required<br/>inputs present?"}
+    INT -->|"No"| ASK(["Stop: returns questions"])
+    INT -->|"Yes"| SITE["Site-level AdSense pass<br/>once per run, cached"]
+    SITE --> S1
+
+    subgraph SEED["For each keyword/idea, iterations ≤ 3"]
+        S1["Stage 1 · Keyword & SERP research<br/>seo-geo: resolve seed → target keyword<br/>+ intent, top results, gaps, sources, brief"]
+        S1 --> ANGLE{"Original angle?"}
+        ANGLE -->|"No"| DROP(["DROPPED"])
+        ANGLE -->|"Yes"| S2["Stage 2 · Write<br/>human-web-content<br/>article.md"]
+        S2 --> S3["Stage 3 · Quality audit<br/>content-quality-auditor<br/>CORE-EEAT score + vetoes"]
+        S3 --> S4["Stage 4 · AdSense checks<br/>adsense-auditor page-level IDs"]
+        S4 --> POLICY{"Policy hit?"}
+        POLICY -->|"Yes"| PSTOP(["POLICY STOP"])
+        POLICY -->|"No"| S5["Stage 5 · SERP + AI search<br/>geo-content-optimizer,<br/>serp-markup-builder, head.html"]
+        S5 --> GATE{"Publish gate"}
+    end
+
+    GATE -->|"Pass"| READY(["READY FOR OWNER REVIEW"])
+    GATE -->|"Sources, angle, or keyword mismatch"| S1
+    GATE -->|"Content or slop issues"| S2
+    GATE -->|"Title or schema issues"| S5
+    GATE -->|"Needs your material"| TK(["BLOCKED ON OWNER INPUT"])
+    GATE -->|"Still failing after 3 rounds"| NR(["NOT READY"])
+
+    READY --> REP["REPORT.md + per-seed folders<br/>research.md, article.md,<br/>head.html, audit.md"]
+    TK --> REP
+    NR --> REP
+    DROP --> REP
+    PSTOP --> REP
+```
+
+**How to run it**
+
+> Use seo-content-master: keyword "best invoicing software for freelancers", intent commercial. Site example.in, Indian freelancers. Author: none. Output: ./content/.
+
+**What you get:** the same package shape as `adsense-content-loop` (`research.md`, `article.md`, `head.html`, `audit.md`, plus `REPORT.md`), except `research.md` now opens with the seed you gave it and the keyword/intent it resolved that seed into.
+
+**Keep in mind:** it's `adsense-content-loop`'s sibling, not a replacement — use `seo-content-master` when you're starting from a keyword or a loose idea, and `adsense-content-loop` when you already have a clean list of topic titles. Both end at *ready for your review*, never at publish.
+
+---
+
+## 8. Skills each agent uses
 
 "Pre" means the skill is loaded at startup; "✓" means the agent calls it at the step that needs it.
 
-| Skill | readiness-checker | quality-rewriter | snippet-writer | content-loop |
-|---|:-:|:-:|:-:|:-:|
-| `adsense-auditor` | **pre** | ✓ | | ✓ |
-| `adsense-content-pipeline` | ✓ | | | **pre** |
-| `human-web-content` | ✓ | **pre** | ✓ | ✓ |
-| `clarity` | | ✓ | | ✓ |
-| `content-quality-auditor` | ✓ | ✓ | | ✓ |
-| `geo-content-optimizer` | | | | ✓ |
-| `serp-markup-builder` | | | **pre** | ✓ |
-| `seo-geo` | ✓ | | | ✓ |
-| `pagewell` | | | | ✓ (repos only) |
+| Skill | readiness-checker | quality-rewriter | snippet-writer | content-loop | content-master |
+|---|:-:|:-:|:-:|:-:|:-:|
+| `adsense-auditor` | **pre** | ✓ | | ✓ | ✓ |
+| `adsense-content-pipeline` | ✓ | | | **pre** | **pre** |
+| `human-web-content` | ✓ | **pre** | ✓ | ✓ | ✓ |
+| `clarity` | | ✓ | | ✓ | ✓ |
+| `content-quality-auditor` | ✓ | ✓ | | ✓ | ✓ |
+| `geo-content-optimizer` | | | | ✓ | ✓ |
+| `serp-markup-builder` | | | **pre** | ✓ | ✓ |
+| `seo-geo` | ✓ | | | ✓ | **pre** |
+| `pagewell` | | | | ✓ (repos only) | ✓ (repos only) |
 
 ```mermaid
 flowchart LR
@@ -248,6 +299,7 @@ flowchart LR
         QR["quality-rewriter"]
         SW["snippet-writer"]
         CL["content-loop"]
+        CM["content-master"]
     end
     subgraph SKILLS["Skills"]
         AA["adsense-auditor"]
@@ -262,11 +314,12 @@ flowchart LR
     QR --> HW & CQ & AA
     SW --> SM & HW
     CL --> PL & SG & HW & CQ & AA & GO & SM
+    CM --> PL & SG & HW & CQ & AA & GO & SM
 ```
 
 ---
 
-## 8. Rules every agent follows
+## 9. Rules every agent follows
 
 When skills disagree, this order wins (from `adsense-content-pipeline`):
 
@@ -286,7 +339,7 @@ flowchart TD
 
 ---
 
-## 9. Install and run
+## 10. Install and run
 
 ```bash
 # from this repo's root
@@ -304,5 +357,6 @@ Then just ask in plain words; Claude hands the job to the agent whose descriptio
 | "Check and rewrite these 3 posts" | `content-quality-rewriter` |
 | "Rewrite the titles and meta for my blog, make them sound human" | `serp-snippet-writer` |
 | "Write 3 AdSense-ready articles on …" | `adsense-content-loop` |
+| "Write me content for the keyword …" / "I have an idea about X, intent is Y" | `seo-content-master` |
 
 You can also name the agent directly: *"Use serp-snippet-writer on …"*.

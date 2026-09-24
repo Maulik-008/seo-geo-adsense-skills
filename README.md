@@ -1,7 +1,7 @@
 # SEO · GEO · AdSense Content Skills
 
 A Claude Code plugin: write quality web content and get a site ready for AdSense review.
-9 skills plus 4 agents, orchestrated end to end. See [AGENT-FLOWS.md](AGENT-FLOWS.md) for
+9 skills plus 5 agents, orchestrated end to end. See [AGENT-FLOWS.md](AGENT-FLOWS.md) for
 flowcharts of how each agent works.
 
 **This is not a guarantee of AdSense approval.** Nothing here can promise that; it improves the
@@ -67,6 +67,7 @@ Restart Claude Code afterward.
 | Agent | `content-quality-rewriter` | Audits and rewrites existing content |
 | Agent | `serp-snippet-writer` | Human-sounding titles, meta, and schema |
 | Agent | `adsense-content-loop` | Research → write → audit → markup loop for new pages |
+| Agent | `seo-content-master` | Keyword/idea/intent in → one researched, audited, AdSense-checked, SERP-marked-up page out |
 
 Full flowcharts for each agent: [AGENT-FLOWS.md](AGENT-FLOWS.md).
 
@@ -106,6 +107,28 @@ Example:
 Returns a folder per topic (`research.md`, `article.md`, `head.html`, `audit.md`) plus a
 `REPORT.md`. It will not publish anything, and it stops and asks a question if the site, topic,
 or audience is missing.
+
+#### `seo-content-master` — keyword/idea/intent to one checked page
+
+```
+Use seo-content-master:
+Keyword / idea / intent: [a keyword, a rough idea, or a stated search intent]
+Site: [URL or one-line description of the niche]
+Audience: [who reads this, and market/language, e.g. "Indian freelancers, English"]
+Author expertise / first-hand material: [what you or your writer actually know or have done — or "none"]
+Output folder: [optional, default ./content/]
+```
+
+Example:
+
+> Use seo-content-master: keyword "best invoicing software for freelancers", intent commercial. Site example.in, Indian freelancers. Author: none. Output: ./content/.
+
+Runs its own keyword/SERP research stage to resolve the seed into a target keyword and intent,
+then loops the page through the same write → CORE-EEAT audit → AdSense check → SERP/GEO markup
+gate as `adsense-content-loop`, fixing and re-checking (up to 3 rounds) until it passes. Returns
+a folder (`research.md`, `article.md`, `head.html`, `audit.md`) plus a `REPORT.md`. Use this one
+when you're starting from a keyword or a loose idea rather than an already-named topic list; use
+`adsense-content-loop` when you already have a clean list of topic titles.
 
 #### `adsense-readiness-checker` — is my site ready for AdSense?
 
@@ -179,7 +202,8 @@ what Claude matches your request against.
 ### Which one should I actually use?
 
 ```
-New pages, from scratch, researched and checked  → adsense-content-loop (agent)
+Keyword / idea / intent → one finished checked page → seo-content-master (agent)
+New pages from a clean topic list, researched and checked → adsense-content-loop (agent)
 Already-written content that needs fixing         → content-quality-rewriter (agent)
 Just the titles/meta/schema, content is fine      → serp-snippet-writer (agent)
 "Is my whole site ready to apply?"                → adsense-readiness-checker (agent)
